@@ -2,13 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/node
     steps:
       - checkout
       - run: yarn build
   test:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/node
     steps:
       - checkout
       - run: yarn test
