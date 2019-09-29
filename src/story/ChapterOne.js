@@ -334,6 +334,9 @@ export default props => (
         lighting the candles before you ping back. Please advise on destination
         of cargo.”
         <NL />
+      </Text>
+      <ChapterEnd />
+      <Text>
         You nodded away the AR world created by your wetware and grab the
         harness which holds you in the chair suspended in the middle of the
         bridge. you clicke chest restraints of the harness and push off towards
