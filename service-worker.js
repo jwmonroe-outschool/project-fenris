@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/project-fenris/precache-manifest.9478e9e53191d3102679074a975ba857.js"
+  "/project-fenris/precache-manifest.b9aead0c3dd48d0aa860a674b85fce34.js"
 );
 
 self.addEventListener('message', (event) => {
