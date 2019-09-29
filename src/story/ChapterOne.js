@@ -271,7 +271,7 @@ export default props => (
         <Option section="chapter-one-time-to-approach-look-closer">
           Look closer.
         </Option>
-        <Option section="chapter-one-checklist-choices">
+        <Option section="chapter-one-checklist-options">
           Continue running checklist.
         </Option>
       </Choice>
