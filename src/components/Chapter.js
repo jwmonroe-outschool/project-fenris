@@ -10,7 +10,7 @@ export const useChapter = () => {
   return React.useContext(ChapterContext);
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "100%"
   }
@@ -40,25 +40,19 @@ const Chapter = ({ entry, children, usePersistentState }) => {
     [sectionHistory, currentSection, setSectionHistory, onEnd, isActive]
   );
 
-  const _childrenByUids = React.useMemo(
-    () => {
-      const _childrenByUids = {};
-      React.Children.forEach(children, element => {
-        if (!React.isValidElement(element)) return;
-        const { uid } = element.props;
-        if (!uid)
-          return console.warn(
-            "Chapter is ignoring section without valid uid: ",
-            {
-              element
-            }
-          );
-        _childrenByUids[uid] = element;
-      });
-      return _childrenByUids;
-    },
-    [children]
-  );
+  const _childrenByUids = React.useMemo(() => {
+    const _childrenByUids = {};
+    React.Children.forEach(children, element => {
+      if (!React.isValidElement(element)) return;
+      const { uid } = element.props;
+      if (!uid)
+        return console.warn("Chapter is ignoring section without valid uid: ", {
+          element
+        });
+      _childrenByUids[uid] = element;
+    });
+    return _childrenByUids;
+  }, [children]);
 
   console.log("Chapter.render", {
     isActive,
@@ -75,17 +69,16 @@ const Chapter = ({ entry, children, usePersistentState }) => {
       {sectionHistory &&
         sectionHistory.map(
           (section, idx) =>
-            (section &&
-              _childrenByUids[section] && (
-                <ChapterContext.Provider
-                  key={section + "-" + idx}
-                  value={storyContexts[idx]}
-                >
-                  <Namespace namespace={idx}>
-                    {_childrenByUids[section]}
-                  </Namespace>
-                </ChapterContext.Provider>
-              )) ||
+            (section && _childrenByUids[section] && (
+              <ChapterContext.Provider
+                key={section + "-" + idx}
+                value={storyContexts[idx]}
+              >
+                <Namespace namespace={idx}>
+                  {_childrenByUids[section]}
+                </Namespace>
+              </ChapterContext.Provider>
+            )) ||
             null
         )}
     </Grid>
