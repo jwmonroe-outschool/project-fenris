@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
 
 import withNamespace, {
   Namespace,
@@ -70,7 +71,13 @@ const Story = ({ children, usePersistentState }) => {
     namespace,
     elements
   });
-  return <React.Fragment>{elements}</React.Fragment>;
+  return (
+    <Container maxWidth="sm">
+      <Grid container justify="center" alignItems="center">
+        {elements}{" "}
+      </Grid>
+    </Container>
+  );
 };
 
 export default withNamespace(Story, "Story");
