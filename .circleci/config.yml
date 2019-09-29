@@ -1,67 +1,67 @@
 defaults: &defaults #working_directory: ./circleci
   docker:
-    - image:           circleci/node:8
+    - image: circleci/node:8
 
-version:               2
+version: 2
 jobs:
   prepare:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-      - run:           npm install
+      - run: yarn
       - save_cache:
           paths:
             - node_modules
-          key:         v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
       - persist_to_workspace:
-          root:        .
+          root: .
           paths:
             - node_modules
   build:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
-      - run:           yarn build
+          at: .
+      - run: yarn build
       - persist_to_workspace:
-          root:        .
+          root: .
           paths:
             - build
   tu:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
-      - run:           yarn test
+          at: .
+      - run: yarn test
   e2e:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
-      - run:           yarn test
+          at: .
+      - run: yarn test
   lint:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
-      - run:           yarn lint
+          at: .
+      - run: yarn lint
   deploy-github:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
+          at: .
       - deploy:
-          name:        Deploy to GitHub Pages
-          command:     |
+          name: Deploy to GitHub Pages
+          command: |
             set -e
 
             remote=$(git config remote.origin.url)
@@ -99,18 +99,18 @@ jobs:
             echo "Finished GitHub pages Deployment!"
 
   deploy-prod:
-    <<:                *defaults
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at:          .
+          at: .
       - deploy:
-          name:        Deploy to Production
-          command:     |
+          name: Deploy to Production
+          command: |
             echo "iooooooo"
 
 workflows:
-  version:             2
+  version: 2
   build_accept_deploy:
     jobs:
       - prepare
@@ -131,7 +131,7 @@ workflows:
             - tu
             - e2e
       - deploy-prod:
-          type:        approval
+          type: approval
           requires:
             - tu
             - e2e
