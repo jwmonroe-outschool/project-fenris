@@ -9,7 +9,10 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily:
-      "Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace"
+      "Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace",
+    h1: {
+      fontSize: "5rem"
+    }
   }
 });
 
