@@ -42,7 +42,13 @@ const Chapter = ({ entry, children, usePersistentState }) => {
     } else {
       console.log("Chapter lastChildrenHash === childrenHash");
     }
-  }, [childrenHash, lastChildrenHash, setLastChildrenHash, isActive]);
+  }, [
+    childrenHash,
+    lastChildrenHash,
+    setLastChildrenHash,
+    isActive,
+    namespace
+  ]);
 
   const [sectionHistory, setSectionHistory] = usePersistentState(
     "sectionHistory",
