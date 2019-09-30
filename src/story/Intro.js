@@ -28,6 +28,7 @@ const Intro = props => (
         Blue buttons indicate choices you can make.
         <NL />
         Red buttons indicate checkpoints you can restart from.
+        <NL />
       </Text>
       <WaitForInput>I understand</WaitForInput>
       <ChapterEnd />

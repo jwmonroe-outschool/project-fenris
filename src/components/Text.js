@@ -22,17 +22,7 @@ const Text = ({ children, ...props }) => {
           <Typography component="div">{children}</Typography>
         </Box>
       ) : (
-        <Typist
-          cursor={{ show: false }}
-          onCharacterTyped={e => {
-            // console.log('Text.onAfterType')
-            // ensure visible
-            if (endOfTextRef.current)
-              endOfTextRef.current.scrollIntoView({ behavior: "smooth" });
-          }}
-          onTypingDone={skip}
-          {...props}
-        >
+        <Typist cursor={{ show: false }} onTypingDone={skip} {...props}>
           <Typography component="div">{children}</Typography>
         </Typist>
       )}
