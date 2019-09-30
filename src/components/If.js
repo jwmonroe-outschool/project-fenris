@@ -1,4 +1,7 @@
+import React from "react";
+
 import { useChapter } from "./Chapter";
+import withNamespace from "../lib/persistence";
 
 function scopeEval(scope, script) {
   if (typeof script === "function") {
@@ -8,16 +11,20 @@ function scopeEval(scope, script) {
   }
 }
 
-export default function If({ expr, children, ...props }) {
+const If = ({ expr, children, usePersistentState, ...props }) => {
   const { isActive, sectionHistory } = useChapter();
-  console.log("If.render", { isActive, sectionHistory });
-  const scope = {
-    entered: sectionUid =>
-      sectionHistory && sectionHistory.some(uid => uid === sectionUid)
-  };
-  if (isActive) {
-    return scopeEval(scope, expr) ? children : null;
-  } else {
-    return children;
-  }
-}
+  const [_value, _setValue] = usePersistentState("value", false);
+  React.useEffect(() => {
+    if (!isActive) return;
+    const scope = {
+      entered: sectionUid =>
+        sectionHistory && sectionHistory.some(uid => uid === sectionUid)
+    };
+    _setValue(scopeEval(scope, expr));
+  }, [expr, isActive, sectionHistory, _setValue]);
+
+  console.log("If.render", { _value, isActive, sectionHistory });
+  return _value ? children : null;
+};
+
+export default withNamespace(If, "If");

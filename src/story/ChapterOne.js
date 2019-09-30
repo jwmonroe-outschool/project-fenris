@@ -11,7 +11,8 @@ import NL from "../components/Newline";
 
 const SAMLoading = () => (
   <React.Fragment>
-    .<Text.Delay ms={250} />.<Text.Delay ms={250} />.<NL />
+    <Text.Delay ms={1000} />.<Text.Delay ms={1000} />.<Text.Delay ms={1000} />.
+    <Text.Delay ms={1000} />.<Text.Delay ms={5100000} />.<NL />
   </React.Fragment>
 );
 
@@ -91,11 +92,17 @@ export default props => (
         Reactor scram triggered after crossing safe radiation range from
         target.”
         <NL />
-        The AI, SAM--as you told him to call himself, curtly answered all your
-        questions. Sometimes you wish you had sprung for the personality
-        upgrade, but it required installing a big red eye and you didn’t want to
-        ruin the vibe of your cockpit. So instead your ship had a oppressively
-        monotonic disembodied voice.
+        <If
+          expr={({ entered }) =>
+            !entered("chapter-one-open-channel-to-dispatch")
+          }
+        >
+          The AI, SAM--as you told him to call himself, curtly answered all your
+          questions. Sometimes you wish you had sprung for the personality
+          upgrade, but it required installing a big red eye and you didn’t want
+          to ruin the vibe of your cockpit. So instead your ship had a
+          oppressively monotonic disembodied voice.
+        </If>
       </Text>
       <Goto section="chapter-one-wakeup-options" />
     </Section>
@@ -105,6 +112,16 @@ export default props => (
         “Open a channel to dispatch.”
         <NL />
         “Standby while a channel is opened.”
+        <NL />
+        <If
+          expr={({ entered }) => !entered("chapter-one-distance-from-target")}
+        >
+          The AI, SAM--as you told him to call himself, curtly answered all your
+          questions. Sometimes you wish you had sprung for the personality
+          upgrade, but it required installing a big red eye and you didn’t want
+          to ruin the vibe of your cockpit. So instead your ship had a
+          oppressively monotonic disembodied voice.
+        </If>
       </Text>
       <Goto section="chapter-one-wakeup-options" />
     </Section>
