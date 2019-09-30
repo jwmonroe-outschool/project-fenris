@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0d3bbfdbeefcd6712d0872d019f8739c",
+    "revision": "26a9082be46459fdb4c1d5f2efd7572f",
     "url": "/project-fenris/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/project-fenris/static/js/2.341d6ecf.chunk.js"
   },
   {
-    "revision": "e8d023b0d885d881d6e9",
-    "url": "/project-fenris/static/js/main.8705e13b.chunk.js"
+    "revision": "6e7074727e88f61ad123",
+    "url": "/project-fenris/static/js/main.f5478b27.chunk.js"
   },
   {
     "revision": "3380d2e98065b63c1316",
