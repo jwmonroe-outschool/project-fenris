@@ -74,7 +74,7 @@ const Story = ({ children, usePersistentState }) => {
   return (
     <Container maxWidth="sm">
       <Grid container justify="center" alignItems="center">
-        {elements}{" "}
+        {elements}
       </Grid>
     </Container>
   );
