@@ -28,7 +28,7 @@ const hash = child => {
     return 0;
   } else if (child === null) {
     return 1;
-  } else if (typeof child === "Boolean") {
+  } else if (typeof child === "boolean") {
     return 2 + child;
   } else if (typeof child === "number") {
     return child | 0;
