@@ -1,7 +1,18 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import Fab from "@material-ui/core/Fab";
+import KeyboardArrowIcon from "@material-ui/icons/KeyboardArrowDown";
+import Zoom from "@material-ui/core/Zoom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 
 import withNamespace, {
   Namespace,
@@ -16,7 +27,87 @@ export const useStory = () => {
   return React.useContext(StoryContext);
 };
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
+  }
+}));
+
+/**
+ * Check if an element is in viewport
+ *
+ * @param {number} [offset]
+ * @returns {boolean}
+ */
+function isInViewport(yourElement, offset = 0) {
+  if (!yourElement) return false;
+  const top = yourElement.getBoundingClientRect().top;
+  return top + offset >= 0 && top - offset <= window.innerHeight;
+}
+
+function ScrollTop({ children, target }) {
+  const classes = useStyles();
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const isSticky = useScrollTrigger();
+  const [isAtBottom, setIsAtBottom] = React.useState(
+    target && isInViewport(target)
+  );
+  const [isScrolling, setIsScrolling] = React.useState(false);
+
+  const doScroll = () => {
+    if (target) {
+      console.log("doScroll", { target, isScrolling, isSticky, isAtBottom });
+      setIsScrolling(true);
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setIsAtBottom(isInViewport(target));
+      if (isAtBottom) {
+        if (isScrolling) {
+          setIsScrolling(false);
+        }
+      } else {
+        if (isSticky && !isScrolling) {
+          doScroll();
+        }
+      }
+    }, 250);
+    return () => {
+      clearInterval(id);
+    };
+  }, [
+    target,
+    setIsAtBottom,
+    isScrolling,
+    isAtBottom,
+    setIsScrolling,
+    isSticky
+  ]);
+
+  console.log("ScrollTop", {
+    children,
+    target,
+    isSticky
+  });
+
+  return (
+    <Zoom in={!isSticky}>
+      <div onClick={doScroll} role="presentation" className={classes.root}>
+        {children}
+      </div>
+    </Zoom>
+  );
+}
+
 const Story = ({ children, usePersistentState }) => {
+  const [scrollToEndRef, setScrollToEndRef] = React.useState(null);
   const [currentChapter, setCurrentChapter] = usePersistentState(
     "CurrentChapter",
     0
@@ -64,19 +155,29 @@ const Story = ({ children, usePersistentState }) => {
       )),
     [currentChapter, setCurrentChapter, children, namespace]
   );
-
   console.log("Story.render", {
     currentChapter,
     setCurrentChapter,
     namespace,
-    elements
+    elements,
+    scrollToEndRef
   });
   return (
-    <Container maxWidth="sm">
-      <Grid container justify="center" alignItems="center">
-        {elements}
-      </Grid>
-    </Container>
+    <React.Fragment>
+      <Container maxWidth="sm">
+        <Grid container justify="center" alignItems="center">
+          {elements}
+        </Grid>
+        <p ref={setScrollToEndRef} />
+      </Container>
+      {scrollToEndRef && (
+        <ScrollTop target={scrollToEndRef}>
+          <Fab color="secondary" size="small" aria-label="scroll back to top">
+            <KeyboardArrowIcon />
+          </Fab>
+        </ScrollTop>
+      )}
+    </React.Fragment>
   );
 };
 

@@ -97,7 +97,7 @@ export default props => (
             !entered("chapter-one-open-channel-to-dispatch")
           }
         >
-          The AI, SAM--as you told him to call himself, curtly answered all your
+          The AI, SAM--as you told him to call himself, curtly answers all your
           questions. Sometimes you wish you had sprung for the personality
           upgrade, but it required installing a big red eye and you didn’t want
           to ruin the vibe of your cockpit. So instead your ship had a
@@ -116,7 +116,7 @@ export default props => (
         <If
           expr={({ entered }) => !entered("chapter-one-distance-from-target")}
         >
-          The AI, SAM--as you told him to call himself, curtly answered all your
+          The AI, SAM--as you told him to call himself, curtly answers all your
           questions. Sometimes you wish you had sprung for the personality
           upgrade, but it required installing a big red eye and you didn’t want
           to ruin the vibe of your cockpit. So instead your ship had a

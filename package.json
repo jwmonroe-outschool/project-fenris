@@ -5,6 +5,7 @@
   "homepage": "https://berkona.github.io/project-fenris/",
   "dependencies": {
     "@material-ui/core": "^4.4.3",
+    "@material-ui/icons": "^4.4.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-intersection-visible": "^2.1.0",
