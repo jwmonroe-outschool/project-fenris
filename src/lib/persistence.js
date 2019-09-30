@@ -31,6 +31,13 @@ function usePersistentState(key, defaultValue) {
   const [value, _setValue] = React.useState(
     persistedValue ? persistedValue : defaultValue
   );
+  // ensure default value is always flushed to local storage
+  React.useEffect(() => {
+    if (value === defaultValue) {
+      Storage.set(namespace, key, defaultValue);
+    }
+  }, [value, defaultValue, namespace, key]);
+  // wrap setValue from React.useState to sync with Storage
   const setValue = React.useCallback(
     newValue => {
       _setValue(newValue);

@@ -1,7 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import withNamespace, { Namespace } from "../lib/persistence";
+import withNamespace, {
+  Namespace,
+  useNamespace,
+  clearNamespace
+} from "../lib/persistence";
+import useChildrenHash from "../lib/useChildrenHash";
 import { useStory } from "./Story";
 
 const ChapterContext = React.createContext();
@@ -17,8 +22,28 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Chapter = ({ entry, children, usePersistentState }) => {
+  const childrenHash = useChildrenHash(children);
   const { isActive, onEnd } = useStory();
   const classes = useStyles();
+  const [lastChildrenHash, setLastChildrenHash] = usePersistentState(
+    "lastChildrenHash",
+    childrenHash
+  );
+  const namespace = useNamespace();
+  React.useEffect(() => {
+    if (isActive && lastChildrenHash !== childrenHash) {
+      // TODO what do we do here?
+      console.warn("Detect changed lastChildrenHash", {
+        lastChildrenHash,
+        childrenHash
+      });
+      setLastChildrenHash(childrenHash);
+      clearNamespace(namespace);
+    } else {
+      console.log("Chapter lastChildrenHash === childrenHash");
+    }
+  }, [childrenHash, lastChildrenHash, setLastChildrenHash, isActive]);
+
   const [sectionHistory, setSectionHistory] = usePersistentState(
     "sectionHistory",
     [entry]
