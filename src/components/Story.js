@@ -1,14 +1,10 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowIcon from "@material-ui/icons/KeyboardArrowDown";
 import Zoom from "@material-ui/core/Zoom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -58,13 +54,12 @@ function ScrollTop({ children, target }) {
   );
   const [isScrolling, setIsScrolling] = React.useState(false);
 
-  const doScroll = () => {
-    if (target) {
-      console.log("doScroll", { target, isScrolling, isSticky, isAtBottom });
+  const doScroll = React.useCallback(() => {
+    if (target && !isScrolling) {
       setIsScrolling(true);
       target.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  };
+  }, [target, setIsScrolling, isScrolling]);
 
   React.useEffect(() => {
     const id = setInterval(() => {
@@ -88,7 +83,8 @@ function ScrollTop({ children, target }) {
     isScrolling,
     isAtBottom,
     setIsScrolling,
-    isSticky
+    isSticky,
+    doScroll
   ]);
 
   console.log("ScrollTop", {
