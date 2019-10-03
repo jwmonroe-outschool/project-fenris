@@ -17,6 +17,8 @@ import withNamespace, {
   clearNamespace
 } from "../lib/persistence";
 
+import childrenHash from "../lib/childrenHash";
+
 const StoryContext = React.createContext();
 
 export const useStory = () => {
@@ -104,10 +106,24 @@ function ScrollTop({ children, target }) {
 
 const Story = ({ children, usePersistentState }) => {
   const [scrollToEndRef, setScrollToEndRef] = React.useState(null);
-  const [currentChapter, setCurrentChapter] = usePersistentState(
-    "CurrentChapter",
-    0
+  //
+  const [playedChapters, setPlayedChapters] = usePersistentState(
+    "playedChapters",
+    []
   );
+
+  const currentChapter = React.useMemo(() => {
+    const idx = children.findIndex(
+      child => playedChapters.indexOf(childrenHash(child)) !== null
+    );
+    return idx === null ? children.length - 1 : idx + 1;
+  }, [children, playedChapters]);
+
+  const setCurrentChapter = chapterNum => {
+    const hash = childrenHash(children[chapterNum]);
+    setPlayedChapters([...playedChapters, hash]);
+  };
+
   const namespace = useNamespace();
   const elements = React.useMemo(
     () =>

@@ -3,6 +3,9 @@ import * as Storage from "./storage";
 
 const NamespaceContext = React.createContext();
 
+/* a container mapping fully resolved joinNamespace(namespace, field) to a POJO */
+const namespaceTransientStore = {};
+
 export function useNamespace() {
   return React.useContext(NamespaceContext) || "root";
 }
@@ -45,6 +48,14 @@ function usePersistentState(key, defaultValue) {
     },
     [namespace, key, _setValue]
   );
+  React.useEffect(() => {
+    namespaceTransientStore[joinNamespace(namespace, key)] = {
+      namespace,
+      key,
+      setValue,
+      defaultValue
+    };
+  }, [namespace, key, setValue, defaultValue]);
   return [value, setValue];
 }
 
@@ -66,4 +77,10 @@ export default function withNamespace(Component, namespace) {
 
 export function clearNamespace(namespace) {
   Storage.clear(namespace);
+  for (const key of namespaceTransientStore) {
+    if (key && key.startsWith(namespace)) {
+      const { setValue, defaultValue } = namespaceTransientStore[key];
+      setValue(defaultValue);
+    }
+  }
 }
