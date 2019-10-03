@@ -77,7 +77,7 @@ export default function withNamespace(Component, namespace) {
 
 export function clearNamespace(namespace) {
   Storage.clear(namespace);
-  for (const key of namespaceTransientStore) {
+  for (const key in namespaceTransientStore) {
     if (key && key.startsWith(namespace)) {
       const { setValue, defaultValue } = namespaceTransientStore[key];
       setValue(defaultValue);

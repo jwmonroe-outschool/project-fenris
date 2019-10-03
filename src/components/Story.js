@@ -47,9 +47,6 @@ function isInViewport(yourElement, offset = 0) {
 
 function ScrollTop({ children, target }) {
   const classes = useStyles();
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
   const isSticky = useScrollTrigger();
   const [isAtBottom, setIsAtBottom] = React.useState(
     target && isInViewport(target)
@@ -57,11 +54,10 @@ function ScrollTop({ children, target }) {
   const [isScrolling, setIsScrolling] = React.useState(false);
 
   const doScroll = React.useCallback(() => {
-    if (target && !isScrolling) {
-      setIsScrolling(true);
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (target) {
+      target.scrollIntoView({ block: "center" });
     }
-  }, [target, setIsScrolling, isScrolling]);
+  }, [target]);
 
   React.useEffect(() => {
     const id = setInterval(() => {
@@ -71,7 +67,7 @@ function ScrollTop({ children, target }) {
           setIsScrolling(false);
         }
       } else {
-        if (isSticky && !isScrolling) {
+        if (isSticky) {
           doScroll();
         }
       }
@@ -114,15 +110,19 @@ const Story = ({ children, usePersistentState }) => {
 
   const currentChapter = React.useMemo(() => {
     const idx = children.findIndex(
-      child => playedChapters.indexOf(childrenHash(child)) !== null
+      child => playedChapters.indexOf(childrenHash(child)) === -1
     );
-    return idx === null ? children.length - 1 : idx + 1;
+    return idx === null ? children.length : idx;
   }, [children, playedChapters]);
 
-  const setCurrentChapter = chapterNum => {
-    const hash = childrenHash(children[chapterNum]);
-    setPlayedChapters([...playedChapters, hash]);
-  };
+  const setCurrentChapter = React.useCallback(
+    chapterNum => {
+      const hash = childrenHash(children[chapterNum - 1]);
+      console.log("setCurrentChapter", { chapterNum, hash, playedChapters });
+      setPlayedChapters([...playedChapters, hash]);
+    },
+    [playedChapters, setPlayedChapters, children]
+  );
 
   const namespace = useNamespace();
   const elements = React.useMemo(
@@ -167,6 +167,7 @@ const Story = ({ children, usePersistentState }) => {
       )),
     [currentChapter, setCurrentChapter, children, namespace]
   );
+
   console.log("Story.render", {
     currentChapter,
     setCurrentChapter,
@@ -174,6 +175,7 @@ const Story = ({ children, usePersistentState }) => {
     elements,
     scrollToEndRef
   });
+
   return (
     <React.Fragment>
       <Container maxWidth="sm">
@@ -184,7 +186,11 @@ const Story = ({ children, usePersistentState }) => {
       </Container>
       {scrollToEndRef && (
         <ScrollTop target={scrollToEndRef}>
-          <Fab color="secondary" size="small" aria-label="scroll back to top">
+          <Fab
+            color="secondary"
+            size="small"
+            aria-label="scroll back to bottom"
+          >
             <KeyboardArrowIcon />
           </Fab>
         </ScrollTop>
