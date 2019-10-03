@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/project-fenris/static/js/main.b403a5ad.chunk.js",
-    "main.js.map": "/project-fenris/static/js/main.b403a5ad.chunk.js.map",
+    "main.js": "/project-fenris/static/js/main.24e6a333.chunk.js",
+    "main.js.map": "/project-fenris/static/js/main.24e6a333.chunk.js.map",
     "runtime-main.js": "/project-fenris/static/js/runtime-main.d6053c7c.js",
     "runtime-main.js.map": "/project-fenris/static/js/runtime-main.d6053c7c.js.map",
-    "static/js/2.42dcba27.chunk.js": "/project-fenris/static/js/2.42dcba27.chunk.js",
-    "static/js/2.42dcba27.chunk.js.map": "/project-fenris/static/js/2.42dcba27.chunk.js.map",
+    "static/js/2.bece130a.chunk.js": "/project-fenris/static/js/2.bece130a.chunk.js",
+    "static/js/2.bece130a.chunk.js.map": "/project-fenris/static/js/2.bece130a.chunk.js.map",
     "index.html": "/project-fenris/index.html",
-    "precache-manifest.6106ffefd2a3b423a7c4d962e614d4f9.js": "/project-fenris/precache-manifest.6106ffefd2a3b423a7c4d962e614d4f9.js",
+    "precache-manifest.32a85ca4476b14b7d3eb6d0b481f88bf.js": "/project-fenris/precache-manifest.32a85ca4476b14b7d3eb6d0b481f88bf.js",
     "service-worker.js": "/project-fenris/service-worker.js"
   }
 }
