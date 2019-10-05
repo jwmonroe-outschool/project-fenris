@@ -8,6 +8,8 @@ Currently, the API is unstable as we work on building a story and using those le
 
 Once the API is stable, we plan to release the resulting code base sans narrative structive as an Open Source library.
 
+Demo: https://berkona.github.io/project-fenris/
+
 # Other Docs
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
